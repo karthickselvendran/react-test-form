@@ -1,3 +1,7 @@
+* {
+  outline: none;
+}
+
 body {
   background-color: #f6f7f9;
   margin: 0;
@@ -215,6 +219,51 @@ i {
   font-weight: 600;
 }
 
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.country-code-select {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px 0 0 6px;
+  background-color: white;
+  appearance: none;
+  min-width: 60px;
+  text-align: center;
+}
+
+.phone-input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  outline: none;
+  margin-left: -3px;
+}
+
+.phone-input:focus,
+.country-code-select:focus {
+  border-color: #2563eb;
+}
+
+.phone-input:focus,
+.country-code-select:focus {
+  border-color: #4b5563; /* Use gray-600 or match your design */
+  box-shadow: none;      /* Remove default blue focus ring */
+  outline: none;         /* Remove default browser outline */
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #d1d5db; /* Tailwind's gray-300 */
+  margin: 1.5rem 0; /* Adjust spacing as needed */
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

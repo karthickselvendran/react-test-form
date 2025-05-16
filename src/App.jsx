@@ -85,6 +85,26 @@ const SelectField = ({ label, value, onChange, options, helperText }) => (
   </div>
 );
 
+const PhoneNumberField = ({ code, setCode, number, setNumber }) => (
+  <div className="form-group">
+    <label className="field-label">Phone number</label>
+    <div className="phone-input-wrapper">
+      <select value={code} onChange={(e) => setCode(e.target.value)} className="country-code-select">
+        <option value="+1">+1</option>
+        <option value="+91">+91</option>
+        <option value="+44">+44</option>
+        {/* Add more codes as needed */}
+      </select>
+      <input
+        type="tel"
+        className="phone-input"
+        placeholder="1234567890"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
+      />
+    </div>
+  </div>
+);
 
 const CardSection = ({ title, children }) => (
   <div className="card-section">
@@ -100,6 +120,8 @@ export default function ReportSellerActivityForm() {
   const [productLink, setProductLink] = useState('');
   const [productName, setProductName] = useState('');
   const [orderId, setOrderId] = useState('');
+  const [phoneCode, setPhoneCode] = useState('+1');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -174,9 +196,11 @@ export default function ReportSellerActivityForm() {
               showInfoIcon={true}
             />
           </div>
-        </CardSection>
 
-        <CardSection title="Seller Information">
+          <hr class="divider" />
+
+          <h3 className="card-title">Seller Information</h3>
+
           <TextAreaField
             label="Seller information page link"
             value={description}
@@ -190,9 +214,10 @@ export default function ReportSellerActivityForm() {
             onChange={(e) => setOrderId(e.target.value)}
             showInfoIcon={true}
           />
-        </CardSection>
 
-        <CardSection title="Product Details">
+          <hr class="divider" />
+
+          <h3 className="card-title">Your Information</h3>
 
           <div className="row">
             <InputField
@@ -200,12 +225,21 @@ export default function ReportSellerActivityForm() {
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
             />
-            <InputField
+            {/* <InputField
               label="Phone number"
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
+            /> */}
+
+            <PhoneNumberField
+              code={phoneCode}
+              setCode={setPhoneCode}
+              number={phoneNumber}
+              setNumber={setPhoneNumber}
             />
           </div>
+
+
 
           <div className="row">
             <InputField
@@ -219,13 +253,14 @@ export default function ReportSellerActivityForm() {
               onChange={(e) => setOrderId(e.target.value)}
             /> */}
             <SelectField
-            label="Who are you?"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            options={['Customer', 'Seller', 'Other']}
-          />
+              label="Who are you?"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              options={['Customer', 'Seller', 'Other']}
+            />
           </div>
         </CardSection>
+
 
         <div className="form-footer">
           <button type="submit" className="submit-button">Submit Report</button>
