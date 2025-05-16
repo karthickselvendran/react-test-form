@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const InputField = ({ label, value, onChange, type = 'text', placeholder = '' }) => (
+// const InputField = ({ label, value, onChange, type = 'text', placeholder = '' }) => (
+//   <div className="form-group">
+//     <label className="field-label">{label}</label>
+//     <input type={type} value={value} onChange={onChange} placeholder={placeholder} className="form-input" />
+//   </div>
+// );
+
+const InputField = ({ label, value, onChange, type = 'text', placeholder = '', showInfoIcon = false }) => (
   <div className="form-group">
-    <label className="field-label">{label}</label>
-    <input type={type} value={value} onChange={onChange} placeholder={placeholder} className="form-input" />
+    <label className="field-label">
+      {label} {showInfoIcon && <i class="fa-solid fa-info"></i> /*  <span className="info-icon">ℹ️</span> */}
+    </label>
+    <input
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className="form-input"
+    />
   </div>
 );
 
@@ -15,12 +30,33 @@ const TextAreaField = ({ label, value, onChange, placeholder = '' }) => (
   </div>
 );
 
+// const RadioGroup = ({ label, name, options, selectedValue, onChange }) => (
+//   <div className="form-group">
+//     <label className="field-label">{label}</label>
+//     <div className="radio-group">
+//       {options.map((option) => (
+//         <label key={option.value} className="custom-radio">
+//           <input
+//             type="radio"
+//             name={name}
+//             value={option.value}
+//             checked={selectedValue === option.value}
+//             onChange={(e) => onChange(e.target.value)}
+//           />
+//           <span className="radio-button"></span>
+//           <span>{option.label}</span>
+//         </label>
+//       ))}
+//     </div>
+//   </div>
+// );
+
 const RadioGroup = ({ label, name, options, selectedValue, onChange }) => (
   <div className="form-group">
     <label className="field-label">{label}</label>
     <div className="radio-group">
       {options.map((option) => (
-        <label key={option.value} className="custom-radio">
+        <label key={option.value} className={`radio-option ${selectedValue === option.value ? 'selected' : ''}`}>
           <input
             type="radio"
             name={name}
@@ -28,13 +64,27 @@ const RadioGroup = ({ label, name, options, selectedValue, onChange }) => (
             checked={selectedValue === option.value}
             onChange={(e) => onChange(e.target.value)}
           />
-          <span className="radio-button"></span>
-          <span>{option.label}</span>
+          {option.label}
         </label>
       ))}
     </div>
   </div>
 );
+
+const SelectField = ({ label, value, onChange, options, helperText }) => (
+  <div className="form-group">
+    <label className="field-label">{label}</label>
+    <select value={value} onChange={onChange} className="form-select">
+      {options.map((opt) => (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
+      ))}
+    </select>
+    {helperText && <p className="helper-text">{helperText}</p>}
+  </div>
+);
+
 
 const CardSection = ({ title, children }) => (
   <div className="card-section">
@@ -65,15 +115,19 @@ export default function ReportSellerActivityForm() {
       </p>
       <form onSubmit={handleSubmit}>
         <CardSection>
-          <InputField
+          {/* <InputField
             label="Select the category"
             type="select"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+          /> */}
+          <SelectField
+            label="Select the category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            options={['Item issue', 'Seller issue', 'Payment issue']}
+            helperText="Choose the category that aligns with your report."
           />
-        </CardSection>
-
-        <CardSection>
           <RadioGroup
             label="What issue would you like to report?"
             name="issueType"
@@ -93,21 +147,19 @@ export default function ReportSellerActivityForm() {
           />
         </CardSection>
 
-        <CardSection title="Description">
+        <CardSection title="Issue information">
           <TextAreaField
             label="Description of issue (Required)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe the issue here..."
           />
-        </CardSection>
-
-        <CardSection title="Product Details">
           <InputField
             label="Product link"
             value={productLink}
             onChange={(e) => setProductLink(e.target.value)}
             type="url"
+            showInfoIcon={true}
           />
           <div className="row">
             <InputField
@@ -119,6 +171,7 @@ export default function ReportSellerActivityForm() {
               label="Order ID"
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
+              showInfoIcon={true}
             />
           </div>
         </CardSection>
@@ -129,11 +182,13 @@ export default function ReportSellerActivityForm() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe the issue here..."
+            showInfoIcon={true}
           />
           <InputField
             label="Seller name"
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
+            showInfoIcon={true}
           />
         </CardSection>
 
@@ -158,11 +213,17 @@ export default function ReportSellerActivityForm() {
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
             />
-            <InputField
+            {/* <InputField
               label="Who are you?"
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
-            />
+            /> */}
+            <SelectField
+            label="Who are you?"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            options={['Customer', 'Seller', 'Other']}
+          />
           </div>
         </CardSection>
 
